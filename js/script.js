@@ -26,7 +26,7 @@ const mensagens = {
     cpf: {
         valueMissing: 'O campo de CPF não pode estar vazio.',
         patternMismatch: "Por favor, preencha um CPF válido.",
-        customError: "O CPF digitado não existe.",
+        customError: "O CPF digitado não existe - CUSTOM ERROR.",
         tooShort: "O campo de CPF não tem caractéres suficientes."
     },
     aniversario: {
@@ -52,6 +52,8 @@ Então, verificarCampo, vai receber como parâmetro (campo),
 Assim, quando acontecer algo ali, vai ser chamado ele(campo) pra acontecer aquela outra função, com referência aquele campo específico*/
 
 function verificarCampo(campo){
+    let mensagem = " ";
+    campo.setCustomValidity(" ");
     //cada if é uma condição que especifica o campo, garantindo que seja um dos required desejado
     if(campo.name== "cpf" && campo.value.length>=11){
         ehUmCPF(campo);
@@ -59,6 +61,21 @@ function verificarCampo(campo){
     if(campo.name== "aniversario" && campo.value !=" "){
         ehMaoirDeIdade(campo);
     }
-     console.log(campo.validity);/*exibe lista c critérios de validação = 
+     /*console.log(campo.validity);exibe lista c critérios de validação = 
      ValidityState{ valid:true, quando os critérios são atendidos / valid:false quando não atendidos}*/
+     
+     tiposDeErro.forEach(erro => {
+        if(campo.validity[erro]){
+            mensagem = mensagens[campo.name][erro];
+            console.log(mensagem)
+        }
+     })
+    const mensagemErro = campo.parentNode.querySelector('.mensagem-erro');
+    const validadorDeInput = campo.checkValidity();
+
+    if(!validadorDeInput){
+        mensagemErro.textContent = mensagem
+    }else{
+        mensagemErro.textContent = " ";
+    }
 }

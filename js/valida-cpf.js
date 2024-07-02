@@ -1,10 +1,11 @@
 export default function ehUmCPF(campo) {
     const cpf = campo.value.replace(/\.|-/g,"");
+    console.log("validade primeiro e segundo digitos");
     console.log(validaPrimeiroDigito(cpf) , validaSegundoDigito(cpf) );
     if(validaNumerosRepetidos(cpf) || validaPrimeiroDigito(cpf) || validaSegundoDigito(cpf)){
-        console.log("Esse não é um CPF válido")
-    }
-    else{console.log("Esse é um CPF válido")}
+        console.log(campo.validity)
+        campo.setCustomValidity("esse CPF não é válido");
+    } else{console.log("Esse é um CPF válido")}
 }
 /* export default = função será exportada como padrão, quando chamar o arq valida-cpf
     a var cpf vai receber o valor do campo, com o método replace()
