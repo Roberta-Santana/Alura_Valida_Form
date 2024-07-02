@@ -1,7 +1,10 @@
 export default function ehUmCPF(campo) {
     const cpf = campo.value.replace(/\.|-/g,"");
-    validaNumerosRepetidos(cpf);
-    console.log(validaNumerosRepetidos(cpf));
+    console.log(validaPrimeiroDigito(cpf) , validaSegundoDigito(cpf) );
+    if(validaNumerosRepetidos(cpf) || validaPrimeiroDigito(cpf) || validaSegundoDigito(cpf)){
+        console.log("Esse não é um CPF válido")
+    }
+    else{console.log("Esse é um CPF válido")}
 }
 /* export default = função será exportada como padrão, quando chamar o arq valida-cpf
     a var cpf vai receber o valor do campo, com o método replace()
@@ -16,4 +19,35 @@ function validaNumerosRepetidos(cpf){
     ]
     return numerosRepetidos.includes(cpf);
     /* funcão que testa se campo.value são valores da array numerosRepetidos e return true ou false*/
+}
+
+
+function validaPrimeiroDigito(cpf){
+    let soma = 0;
+    let multiplicador = 10;
+
+    for(let tamanho = 0; tamanho<9; tamanho++){
+        soma+=cpf[tamanho] *multiplicador;
+        multiplicador--;
+    }
+    soma = (soma*10)%11;
+    if(soma ==10 || soma == 11){
+        soma=0;
+    }
+    return soma !=cpf[9];
+}
+
+function validaSegundoDigito(cpf){
+    let soma = 0;
+    let multiplicador = 11;
+
+    for(let tamanho = 0; tamanho<10; tamanho++){
+        soma+=cpf[tamanho] *multiplicador;
+        multiplicador--;
+    }
+    soma = (soma*10)%11;
+    if(soma ==10 || soma == 11){
+        soma=0;
+    }
+    return soma !=cpf[10];
 }
