@@ -2,6 +2,24 @@ import ehUmCPF from "../js/valida-cpf.js";
 import ehMaoirDeIdade from "./valida-idade.js";
 
 const camposDoFormulario = document.querySelectorAll('[required]');
+
+const formulario = document.querySelector("[data-formulario]");
+//enviando os dados via submito, que espera um evento, que gera om objeto
+formulario.addEventListener('submit', (e)=>{
+    e.preventDefault();
+
+    const listaRespostas = {
+        "nome": e.target.elements["nome"].value,
+        "email": e.target.elements["email"].value,
+        "rg": e.target.elements["rg"].value,
+        "cpf": e.target.elements["cpf"].value,
+        "aniversario": e.target.elements["aniversario"].value,
+    }
+
+    localStorage.setItem('cadastro', JSON.stringify(listaRespostas));
+    window.location.href= './abrir-conta-form-2.html';
+})
+
 const tiposDeErro = ['valueMissing', 'typeMismatch', 'patternMismatch', 'tooShort', 'customError'];
 /* criando uma var que recebe a lista dos erros mais comuns= 
 valueMissing: campo vazio, faltando valor; typeMismatch: erro no tipo de input do campo, ex: email sem @,
@@ -53,7 +71,8 @@ Assim, quando acontecer algo ali, vai ser chamado ele(campo) pra acontecer aquel
 
 function verificarCampo(campo){
     let mensagem = " ";
-    campo.setCustomValidity(" ");
+    campo.setCustomValidity('');
+
     //cada if é uma condição que especifica o campo, garantindo que seja um dos required desejado
     if(campo.name== "cpf" && campo.value.length>=11){
         ehUmCPF(campo);
@@ -67,15 +86,15 @@ function verificarCampo(campo){
      tiposDeErro.forEach(erro => {
         if(campo.validity[erro]){
             mensagem = mensagens[campo.name][erro];
-            console.log(mensagem)
+            console.log(mensagem);
         }
      })
     const mensagemErro = campo.parentNode.querySelector('.mensagem-erro');
     const validadorDeInput = campo.checkValidity();
 
     if(!validadorDeInput){
-        mensagemErro.textContent = mensagem
+        mensagemErro.textContent = mensagem;
     }else{
-        mensagemErro.textContent = " ";
+        mensagemErro.textContent = "";
     }
 }

@@ -3,7 +3,7 @@ export default function ehUmCPF(campo) {
     console.log("validade primeiro e segundo digitos");
     console.log(validaPrimeiroDigito(cpf) , validaSegundoDigito(cpf) );
     if(validaNumerosRepetidos(cpf) || validaPrimeiroDigito(cpf) || validaSegundoDigito(cpf)){
-        console.log(campo.validity)
+        console.log(campo.validity);
         campo.setCustomValidity("esse CPF não é válido");
     } else{console.log("Esse é um CPF válido")}
 }
